@@ -3,24 +3,33 @@
 command line argument parser
 
 ## Getting Started
-Install the module with: `npm install args`
+Install the module with: `npm install cliargs`
 
 ```javascript
-var args = require('args');
-args.awesome(); // "awesome"
+var cliargs = require('cliargs');
+var argsObj = cliargs.parse();
 ```
 
-## Documentation
-_(Coming soon)_
+## example
 
-## Examples
-_(Coming soon)_
+This argument string
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+```
+-a -v -bsd -p blub -k asd param1 param2
+```
 
-## Release History
-_(Nothing yet)_
+will be parsed as
+
+```
+{ params: [ 'param1', 'param2' ],
+  a: true,
+  v: true,
+  b: true,
+  s: true,
+  d: true,
+  p: 'blub',
+  k: 'asd' }
+```
 
 ## License
 Copyright (c) 2013 Max Tobias Weber  
