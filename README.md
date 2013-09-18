@@ -1,4 +1,4 @@
-# args [![Build Status](https://secure.travis-ci.org/cioddi/node-cliargs.png?branch=master)](http://travis-ci.org/cioddi/node-cliargs)
+# node-cliargs [![Build Status](https://secure.travis-ci.org/cioddi/node-cliargs.png?branch=master)](http://travis-ci.org/cioddi/node-cliargs)
 
 command line argument parser
 
