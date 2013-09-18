@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-var args = require('../lib/args.js');
+var exec = require('child_process').exec;
+var args = require('../lib/cliargs.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -23,16 +24,120 @@ var args = require('../lib/args.js');
     test.ifError(value)
 */
 
-// exports['awesome'] = {
-//   setUp: function(done) {
-//     // setup here
-//     done();
-//   },
-//   'no args': function(test) {
-//     test.expect(1);
-//     // tests here
-//     test.equal(args.awesome(), 'awesome', 'should be awesome.');
-//     test.done();
-//   },
-// };
-console.log(args.parse());
+exports['cliargs'] = {
+  setUp: function(done) {
+
+    done();
+  },
+  'simple flags': function(test) {
+    exec('./test/cli.js -a',function(err,stdout,stderr){
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(1);
+
+
+      test.equal(argsObj.a, true, 'should be true.');
+      test.done();
+    });
+    
+  },
+  '2 simple flags': function(test) {
+    exec('./test/cli.js -a -b',function(err,stdout,stderr){
+      console.log(stdout);
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(2);
+
+
+      test.equal(argsObj.a, true, 'should be true.');
+      test.equal(argsObj.b, true, 'should be true.');
+      test.done();
+    });
+    
+  },
+  'multi flags': function(test) {
+    exec('./test/cli.js -bvg',function(err,stdout,stderr){
+
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(3);
+      test.equal(argsObj.b, true, 'should be true.');
+      test.equal(argsObj.v, true, 'should be true.');
+      test.equal(argsObj.g, true, 'should be true.');
+
+      test.done();
+    });
+    
+  },
+  'value flag': function(test) {
+    exec('./test/cli.js -b asd',function(err,stdout,stderr){
+
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(1);
+      test.equal(argsObj.b, 'asd', 'should be "asd".');
+
+      test.done();
+    });
+    
+  },
+  '--value flag': function(test) {
+    exec('./test/cli.js --b=asd',function(err,stdout,stderr){
+
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(1);
+      test.equal(argsObj.b, 'asd', 'should be "asd".');
+
+      test.done();
+    });
+    
+  },
+  'multi value flags': function(test) {
+    exec('./test/cli.js -b asd -c dsa',function(err,stdout,stderr){
+
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(2);
+      test.equal(argsObj.b, 'asd', 'should be "asd".');
+      test.equal(argsObj.c, 'dsa', 'should be "dsa".');
+
+      test.done();
+    });
+    
+  },
+  '--flag': function(test) {
+    exec('./test/cli.js --basd',function(err,stdout,stderr){
+
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(1);
+      test.equal(argsObj.basd, true, 'should be "asd".');
+
+      test.done();
+    });
+    
+  },
+  'mixed stuff': function(test) {
+    exec('./test/cli.js -a -v -bsd -p blub -k asd param1 param2',function(err,stdout,stderr){
+
+      var argsObj = JSON.parse(stdout);
+
+      test.expect(9);
+      test.equal(argsObj.a, true, 'should be true.');
+      test.equal(argsObj.v, true, 'should be true.');
+      test.equal(argsObj.b, true, 'should be true.');
+      test.equal(argsObj.s, true, 'should be true.');
+      test.equal(argsObj.d, true, 'should be true.');
+
+      test.equal(argsObj.p, 'blub', 'should be "blub".');
+      test.equal(argsObj.k, 'asd', 'should be "asd".');
+
+      test.equal(argsObj.params[0], 'param1', 'should be "param1".');
+      test.equal(argsObj.params[1], 'param2', 'should be "param2".');
+
+      test.done();
+    });
+    
+  }
+};

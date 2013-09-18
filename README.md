@@ -1,4 +1,4 @@
-# args [![Build Status](https://secure.travis-ci.org/cioddi/node-args.png?branch=master)](http://travis-ci.org/cioddi/node-args)
+# args [![Build Status](https://secure.travis-ci.org/cioddi/node-cliargs.png?branch=master)](http://travis-ci.org/cioddi/node-cliargs)
 
 command line argument parser
 
@@ -15,7 +15,7 @@ var argsObj = cliargs.parse();
 This argument string
 
 ```
--a -v -bsd -p blub -k asd param1 param2
+ -a -v -bsd -p blub -k asd param1 param2 --foo=bar
 ```
 
 will be parsed as
@@ -28,7 +28,8 @@ will be parsed as
   s: true,
   d: true,
   p: 'blub',
-  k: 'asd' }
+  k: 'asd',
+  foo: 'bar' }
 ```
 
 ## License

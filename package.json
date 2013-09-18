@@ -21,7 +21,7 @@
       "url": "https://github.com/cioddi/node-args/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/args",
+  "main": "lib/cliargs",
   "engines": {
     "node": ">= 0.8.0"
   },
